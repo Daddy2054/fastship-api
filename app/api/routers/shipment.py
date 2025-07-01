@@ -1,3 +1,4 @@
+from uuid import UUID
 from fastapi import APIRouter, HTTPException, status
 
 from ..dependencies import SellerDep, ShipmentServiceDep
@@ -10,7 +11,7 @@ router = APIRouter(prefix="/shipment", tags=["Shipment"])
 ### Read a shipment by id
 @router.get("/", response_model=ShipmentRead)
 # async def get_shipment(id: int, service: ServiceDep):
-async def get_shipment(id: int, _: SellerDep, service: ShipmentServiceDep):
+async def get_shipment(id: UUID, _: SellerDep, service: ShipmentServiceDep):  # noqa: F821
     # Check for shipment with given id
     shipment = await service.get(id)
 
@@ -30,7 +31,7 @@ async def submit_shipment(
     shipment: ShipmentCreate,
     service: ShipmentServiceDep,
 ):
-    return await service.add(shipment)
+    return await service.add(shipment, seller)
 
 
 ### Update fields of a shipment
