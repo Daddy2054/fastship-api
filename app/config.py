@@ -30,5 +30,6 @@ class SecuritySettings(BaseSettings):
 
 
 db_settings = DatabaseSettings()
+#print("Using database URL:", db_settings.POSTGRES_URL)
 security_settings = SecuritySettings()
-print(f"Connected to Redis at {db_settings.REDIS_HOST}:{db_settings.REDIS_PORT}")
+#print(f"Connected to Redis at {db_settings.REDIS_HOST}:{db_settings.REDIS_PORT}")

@@ -70,6 +70,9 @@ class Seller(SQLModel, table=True):
     address: str | None = Field(
         default=None, sa_column=Column(postgresql.VARCHAR, nullable=True)
     )
+    address2: str | None = Field(
+        default=None, sa_column=Column(postgresql.VARCHAR, nullable=True)
+    )
     zip_code: int | None = Field(
         default=None, sa_column=Column(postgresql.INTEGER, nullable=True)
     )

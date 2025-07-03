@@ -1,0 +1,18 @@
+### This file is used to set environment variables for the FastAPI application.
+# rename it to .env
+# and place it in the root directory of your project.
+# Make sure to keep this file secure and not expose sensitive information in public repositories.
+# This file is not meant to be committed to version control.
+# Example .env file for FastAPI application
+# Make sure to rename this file to .env before using it.
+# This file contains sensitive information such as database credentials and JWT secrets.
+
+POSTGRES_SERVER="localhost"
+POSTGRES_PORT=5433
+POSTGRES_USER="postgres"
+POSTGRES_PASSWORD="pgpass"
+POSTGRES_DB="myshipment"
+REDIS_HOST="localhost"
+REDIS_PORT=6379
+JWT_SECRET="your_default_jwt_secret"
+JWT_ALGORITHM = "HS256"

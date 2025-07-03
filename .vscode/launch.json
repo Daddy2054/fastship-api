@@ -1,0 +1,27 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "debugpy",
+      "request": "launch",
+      "name": "Launch FastAPI App",
+      "program": "${workspaceFolder}/${input:entryPoint}",
+      "args": [
+        "run"
+      ],
+      "envFile": "${workspaceFolder}/.env",
+      "cwd": "${workspaceFolder}"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "entryPoint",
+      "type": "pickString",
+      "description": "Select the entry point for your FastAPI app",
+      "options": [
+        "app/main.py",
+        "migrations/env.py"
+      ]
+    }
+  ]
+}
