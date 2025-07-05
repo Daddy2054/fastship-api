@@ -1,16 +1,1 @@
 Generic single-database configuration with an async dbapi.
-
-commands:
-alembic revision -m "add  shipment table"
-#tweak migration file, upgrade,downggrade functions, 
-# it will run on actual db
-# run last (most recent) revision, or you can use specific revision id
-# to run specific revision, use alembic upgrade <revision_id>
-# to run all revisions, use alembic upgrade head
-alembic upgrade head
-
-# check name of last revision
-alembic current
-# to downgrade to specific revision, use alembic downgrade <revision_id>
-# to downgrade to previous revision, use alembic downgrade -1
-# to downgrade to base revision, use alembic downgrade base
