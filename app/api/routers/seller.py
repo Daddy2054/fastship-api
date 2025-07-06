@@ -1,15 +1,18 @@
 from typing import Annotated
-#from fastapi import APIRouter, Depends, HTTPException
+
+# from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi import APIRouter, Depends
 
 from app.database.redis import add_jti_to_blacklist
-#from app.database.models import Seller
 
-from ..dependencies import SellerServiceDep, get_access_token #, SessionDep
+# from app.database.models import Seller
+
+from ..dependencies import SellerServiceDep, get_seller_access_token  # , SessionDep
 from ..schemas.seller import SellerCreate, SellerRead
-#from app.core.security import oauth2_scheme
-#from app.utils import decode_access_token
+
+# from app.core.security import oauth2_scheme
+# from app.utils import decode_access_token
 
 router = APIRouter(prefix="/seller", tags=["Seller"])
 
@@ -54,7 +57,7 @@ curl http://127.0.0.1:8000/seller/token \
 #     token: Annotated[str, Depends(oauth2_scheme)],
 #     session: SessionDep,
 # ) -> Seller | dict[str, str]:
-    
+
 #     data = decode_access_token(token)
 
 #     if not data:
@@ -71,7 +74,7 @@ curl http://127.0.0.1:8000/seller/token \
 ### Logout a seller
 @router.get("/logout")
 async def logout_seller(
-    token_data: Annotated[dict, Depends(get_access_token)],
+    token_data: Annotated[dict, Depends(get_seller_access_token)],
 ):
     await add_jti_to_blacklist(token_data["jti"])
     return {"detail": "Successfully logged out"}
