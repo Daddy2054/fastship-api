@@ -44,5 +44,5 @@ class ShipmentService(BaseService):
         return await self._update(shipment)
 
     # Delete a shipment
-    async def delete(self, id: int) -> None:
+    async def delete(self, id: UUID) -> None:
         await self._delete(await self.get(id))

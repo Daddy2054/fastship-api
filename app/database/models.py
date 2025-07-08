@@ -57,16 +57,17 @@ class User(SQLModel):
     email: EmailStr
     password_hash: str = Field(exclude=True)
     email_verified: bool = Field(default=False)
+    # address: str | None = None
+    # zip_code: int | None = None
+    # address: str | None = Field(
+    #     default=None, sa_column=Column(postgresql.VARCHAR, nullable=True)
+    # )
+    # zip_code: int | None = Field(
+    #     default=None, sa_column=Column(postgresql.INTEGER, nullable=True)
+    #)
 
-    address: str | None = Field(
-        default=None, sa_column=Column(postgresql.VARCHAR, nullable=True)
-    )
-    zip_code: int | None = Field(
-        default=None, sa_column=Column(postgresql.INTEGER, nullable=True)
-    )
 
-
-class Seller(SQLModel, table=True):
+class Seller(User, table=True):
     __tablename__ = "seller"
 
     id: UUID = Field(
@@ -87,7 +88,12 @@ class Seller(SQLModel, table=True):
         back_populates="seller",
         sa_relationship_kwargs={"lazy": "selectin"},
     )
-
+    address: str | None = Field(
+        default=None, sa_column=Column(postgresql.VARCHAR, nullable=True)
+    )
+    zip_code: int | None = Field(
+        default=None, sa_column=Column(postgresql.INTEGER, nullable=True)
+    )
 
 class DeliveryPartner(User, table=True):
     __tablename__ = "delivery_partner"

@@ -3,7 +3,8 @@ from uuid import UUID
 
 from fastapi import Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
-#from app.core.security import oauth2_scheme
+
+# from app.core.security import oauth2_scheme
 from app.core.security import oauth2_scheme_seller, oauth2_scheme_partner
 
 from app.database.models import DeliveryPartner, Seller
@@ -47,7 +48,6 @@ async def get_partner_access_token(
     return await _get_access_token(token)
 
 
-
 # Logged In Seller
 async def get_current_seller(
     token_data: Annotated[dict, Depends(get_seller_access_token)],
@@ -88,7 +88,10 @@ async def get_current_partner(
 
 # Shipment service dep
 def get_shipment_service(session: SessionDep):
-    return ShipmentService(session)
+    return ShipmentService(
+        session,
+        DeliveryPartnerService(session),
+    )
 
 
 # Seller service dep
@@ -108,9 +111,11 @@ DeliveryPartnerDep = Annotated[
     Depends(get_current_partner),
 ]
 
+
 # Delivery partner service dep
 def get_delivery_partner_service(session: SessionDep):
     return DeliveryPartnerService(session)
+
 
 # Shipment service dep annotation
 ShipmentServiceDep = Annotated[
@@ -122,7 +127,6 @@ SellerServiceDep = Annotated[
     SellerService,
     Depends(get_seller_service),
 ]
-
 
 
 # Delivery partner service dep annotaion

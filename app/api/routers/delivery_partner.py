@@ -12,7 +12,6 @@ from app.database.redis import add_jti_to_blacklist
 from ..dependencies import (
     DeliveryPartnerDep,
     DeliveryPartnerServiceDep,
-    SellerServiceDep,
     get_partner_access_token,
 )
 from ..schemas.delivery_partner import (
@@ -39,7 +38,7 @@ async def register_delivery_partner(
 @router.post("/token")
 async def login_delivery_partner(
     request_form: Annotated[OAuth2PasswordRequestForm, Depends()],
-    service: SellerServiceDep,
+    service: DeliveryPartnerServiceDep,
 ):
     token = await service.token(request_form.username, request_form.password)
     return {

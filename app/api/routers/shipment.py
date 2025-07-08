@@ -1,7 +1,7 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException, status
 
-from ..dependencies import SellerDep, ShipmentServiceDep
+from ..dependencies import DeliveryPartnerDep, SellerDep, ShipmentServiceDep
 from ..schemas.shipment import ShipmentCreate, ShipmentRead, ShipmentUpdate
 
 # api router to group endpoints
@@ -11,7 +11,9 @@ router = APIRouter(prefix="/shipment", tags=["Shipment"])
 ### Read a shipment by id
 @router.get("/", response_model=ShipmentRead)
 # async def get_shipment(id: int, service: ServiceDep):
-async def get_shipment(id: UUID, _: SellerDep, service: ShipmentServiceDep):  # noqa: F821
+async def get_shipment(
+    id: UUID, _: SellerDep, service: ShipmentServiceDep
+):  # noqa: F821
     # Check for shipment with given id
     shipment = await service.get(id)
 
@@ -37,8 +39,9 @@ async def submit_shipment(
 ### Update fields of a shipment
 @router.patch("/", response_model=ShipmentRead)
 async def update_shipment(
-    id: int,
+    id: UUID,
     shipment_update: ShipmentUpdate,
+    partner: DeliveryPartnerDep,
     service: ShipmentServiceDep,
 ):
     # Update data with given fields
@@ -55,7 +58,7 @@ async def update_shipment(
 
 ### Delete a shipment by id
 @router.delete("/")
-async def delete_shipment(id: int, service: ShipmentServiceDep) -> dict[str, str]:
+async def delete_shipment(id: UUID, service: ShipmentServiceDep) -> dict[str, str]:
     # Remove from database
     await service.delete(id)
 
