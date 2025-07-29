@@ -13,7 +13,7 @@ class ShipmentStatus(str, Enum):
     in_transit = "in_transit"
     out_for_delivery = "out_for_delivery"
     delivered = "delivered"
-
+    cancelled = "cancelled"
 
 class Shipment(SQLModel, table=True):
     __tablename__ = "shipment"
@@ -56,6 +56,11 @@ class Shipment(SQLModel, table=True):
         sa_relationship_kwargs={"lazy": "selectin"},
     )
 
+    @property
+    def status(self):
+        return self.timeline[-1].status if len(self.timeline) > 0 else None
+
+
 class ShipmentEvent(SQLModel, table=True):
     __tablename__ = "shipment_event"
 
@@ -97,7 +102,7 @@ class User(SQLModel):
     # )
     # zip_code: int | None = Field(
     #     default=None, sa_column=Column(postgresql.INTEGER, nullable=True)
-    #)
+    # )
 
 
 class Seller(User, table=True):
@@ -130,6 +135,7 @@ class Seller(User, table=True):
     zip_code: int | None = Field(
         default=None, sa_column=Column(postgresql.INTEGER, nullable=True)
     )
+
 
 class DeliveryPartner(User, table=True):
     __tablename__ = "delivery_partner"
@@ -164,6 +170,7 @@ class DeliveryPartner(User, table=True):
             shipment
             for shipment in self.shipments
             if shipment.status != ShipmentStatus.delivered
+            or shipment.status != ShipmentStatus.cancelled
         ]
 
     @property
